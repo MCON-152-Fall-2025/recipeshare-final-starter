@@ -1,96 +1,94 @@
 package com.mcon152.recipeshare.web;
 
 import com.mcon152.recipeshare.Recipe;
+import com.mcon152.recipeshare.service.RecipeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/recipes")
 public class RecipeController {
-    private final List<Recipe> recipes = new ArrayList<>();
+    private final RecipeService recipeService;
 
-    private final AtomicLong counter = new AtomicLong();
-    RecipeController() {}
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     /**
-     * Adds a new recipe to the list.
-     *
-     * @param recipe the recipe to add
-     * @return the added recipe with its assigned ID
+     * Create a new recipe.
+     * Returns 201 Created with Location header pointing to the new resource.
      */
     @PostMapping
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
-        recipe.setId(counter.incrementAndGet());
-        recipes.add(recipe);
-        return recipe;
+    public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
+        try {
+            Recipe saved = recipeService.addRecipe(recipe);
+
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()           // /api/recipes
+                    .path("/{id}")                  // /{id}
+                    .buildAndExpand(saved.getId())
+                    .toUri();
+
+            return ResponseEntity.created(location).body(saved);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     /**
-     * Retrieves all recipes.
-     *
-     * @return a list of all recipes
+     * Retrieve all recipes. 200 OK.
      */
     @GetMapping
-    public List<Recipe> getAllRecipes() {
-        return recipes;
+    public ResponseEntity<List<Recipe>> getAllRecipes() {
+        return ResponseEntity.ok(recipeService.getAllRecipes());
     }
 
     /**
-     * Retrieves a recipe by its ID.
-     *
-     * @param id the ID of the recipe to retrieve
-     * @return the recipe with the specified ID, or null if not found
+     * Retrieve a recipe by id. 200 OK or 404 Not Found.
      */
     @GetMapping("/{id}")
-    public Recipe getRecipeById(@PathVariable long id) {
-        for (Recipe recipe : recipes) {
-            if (recipe.getId() == id) {
-                return recipe;
-            }
-        }
-        return null;
+    public ResponseEntity<Recipe> getRecipeById(@PathVariable long id) {
+        return recipeService.getRecipeById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /**
-     * Deletes a recipe by its ID.
-     *
-     * @param id the ID of the recipe to delete
-     * @return true if the recipe was deleted, false if not found
+     * Delete a recipe. 204 No Content if deleted, 404 Not Found otherwise.
      */
     @DeleteMapping("/{id}")
-    public boolean deleteRecipe(@PathVariable long id) {
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipes.get(i).getId() == id) {
-                recipes.remove(i);
-                return true;
-            }
+    public ResponseEntity<Void> deleteRecipe(@PathVariable long id) {
+        try {
+            boolean deleted = recipeService.deleteRecipe(id);
+            return deleted
+                    ? ResponseEntity.noContent().build()
+                    : ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
-        return false;
-    }
-    /**
-     * Updates an existing recipe by its ID.
-     *
-     * @param id the ID of the recipe to update
-     * @param updatedRecipe the updated recipe data
-     * @return the updated recipe, or null if not found
-     */
-    @PutMapping("/{id}")
-    public Recipe updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
-        throw new UnsupportedOperationException("Update recipe not implemented");
     }
 
     /**
-     * Partially updates an existing recipe by its ID.
-     *
-     * @param id the ID of the recipe to update
-     * @param partialRecipe the partial recipe data to update
-     * @return the updated recipe, or null if not found
+     * Replace a recipe (full update). 200 OK with updated entity or 404 Not Found.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
+        return recipeService.updateRecipe(id, updatedRecipe)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Partial update. 200 OK with updated entity or 404 Not Found.
      */
     @PatchMapping("/{id}")
-    public Recipe patchRecipe(@PathVariable long id, @RequestBody Recipe partialRecipe) {
-        throw new UnsupportedOperationException("Update recipe not implemented");
+    public ResponseEntity<Recipe> patchRecipe(@PathVariable long id, @RequestBody Recipe partialRecipe) {
+        return recipeService.patchRecipe(id, partialRecipe)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

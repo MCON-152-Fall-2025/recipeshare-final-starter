@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/test/java/com/mcon152/recipeshare/service/RecipeServiceTestSolution.java
