@@ -44,10 +44,12 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Optional<Recipe> updateRecipe(long id, Recipe updatedRecipe) {
         return repo.findById(id).map(existing -> {
+            // Preserve entity type (do not replace the DB row with a different subtype)
             existing.setTitle(updatedRecipe.getTitle());
             existing.setDescription(updatedRecipe.getDescription());
             existing.setIngredients(updatedRecipe.getIngredients());
             existing.setInstructions(updatedRecipe.getInstructions());
+            existing.setServings(updatedRecipe.getServings());
             return repo.save(existing);
         });
     }
@@ -59,8 +61,8 @@ public class RecipeServiceImpl implements RecipeService {
             if (partialRecipe.getDescription() != null) existing.setDescription(partialRecipe.getDescription());
             if (partialRecipe.getIngredients() != null) existing.setIngredients(partialRecipe.getIngredients());
             if (partialRecipe.getInstructions() != null) existing.setInstructions(partialRecipe.getInstructions());
+            if (partialRecipe.getServings() != null) existing.setServings(partialRecipe.getServings());
             return repo.save(existing);
         });
     }
 }
-

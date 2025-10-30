@@ -13,7 +13,25 @@ class RecipeTest {
         assertEquals("Delicious cake", recipe.getDescription());
         assertEquals("Flour, Sugar, Eggs", recipe.getIngredients());
         assertEquals("Mix and bake", recipe.getInstructions());
-        assertEquals(8, recipe.getServings());
+        assertEquals(Integer.valueOf(8), recipe.getServings());
+    }
+
+    @Test
+    void testSubtypeInstances_andFields() {
+        BasicRecipe basic = new BasicRecipe(2L, "Toast", "Buttery toast", "Bread, Butter", "Toast bread and spread butter", 1);
+        VegetarianRecipe veg = new VegetarianRecipe(3L, "Veg Salad", "Fresh salad", "Lettuce, Tomato", "Toss", 2);
+        DessertRecipe dessert = new DessertRecipe(4L, "Ice Cream", "Vanilla", "Milk, Sugar", "Freeze", 4);
+        DairyRecipe dairy = new DairyRecipe(5L, "Cheese Plate", "Assorted cheeses", "Cheeses", "Arrange on plate", 3);
+
+        assertInstanceOf(BasicRecipe.class, basic);
+        assertInstanceOf(VegetarianRecipe.class, veg);
+        assertInstanceOf(DessertRecipe.class, dessert);
+        assertInstanceOf(DairyRecipe.class, dairy);
+
+        assertEquals("Toast", basic.getTitle());
+        assertEquals("Veg Salad", veg.getTitle());
+        assertEquals("Ice Cream", dessert.getTitle());
+        assertEquals(Integer.valueOf(3), dairy.getServings());
     }
 
     @Test
@@ -30,7 +48,7 @@ class RecipeTest {
         assertEquals("Apple pie", recipe.getDescription());
         assertEquals("Apples, Flour, Sugar", recipe.getIngredients());
         assertEquals("Mix and bake", recipe.getInstructions());
-        assertEquals(6, recipe.getServings());
+        assertEquals(Integer.valueOf(6), recipe.getServings());
     }
 
     @Test
@@ -46,13 +64,12 @@ class RecipeTest {
         recipe.setServings(4);
         assertEquals("Whole Wheat Bread", recipe.getTitle());
         assertEquals("Healthy bread", recipe.getDescription());
-        assertEquals(4, recipe.getServings());
+        assertEquals(Integer.valueOf(4), recipe.getServings());
     }
 
     @Test
     void testDeleteRecipe() {
-        Recipe recipe = new Recipe(3L, "Soup", "Hot soup", "Water, Vegetables", "Boil", 2);
-        recipe = null;
+        Recipe recipe = null;
         assertNull(recipe);
     }
 }

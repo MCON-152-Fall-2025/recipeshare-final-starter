@@ -1,6 +1,7 @@
 package com.mcon152.recipeshare.web;
 
 import com.mcon152.recipeshare.Recipe;
+import com.mcon152.recipeshare.service.RecipeFactory;
 import com.mcon152.recipeshare.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,10 @@ public class RecipeController {
      * Returns 201 Created with Location header pointing to the new resource.
      */
     @PostMapping
-    public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
+    public ResponseEntity<Recipe> addRecipe(@RequestBody RecipeRequest recipeRequest) {
         try {
-            Recipe saved = recipeService.addRecipe(recipe);
+            Recipe toSave = RecipeFactory.createFromRequest(recipeRequest);
+            Recipe saved = recipeService.addRecipe(toSave);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()           // /api/recipes
@@ -76,7 +78,8 @@ public class RecipeController {
      * Replace a recipe (full update). 200 OK with updated entity or 404 Not Found.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody RecipeRequest updatedRequest) {
+        Recipe updatedRecipe = RecipeFactory.createFromRequest(updatedRequest);
         return recipeService.updateRecipe(id, updatedRecipe)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -86,7 +89,8 @@ public class RecipeController {
      * Partial update. 200 OK with updated entity or 404 Not Found.
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<Recipe> patchRecipe(@PathVariable long id, @RequestBody Recipe partialRecipe) {
+    public ResponseEntity<Recipe> patchRecipe(@PathVariable long id, @RequestBody RecipeRequest partialRequest) {
+        Recipe partialRecipe = RecipeFactory.createFromRequest(partialRequest);
         return recipeService.patchRecipe(id, partialRecipe)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

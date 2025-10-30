@@ -2,7 +2,7 @@ package com.mcon152.recipeshare.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mcon152.recipeshare.Recipe;
+import com.mcon152.recipeshare.*;
 import com.mcon152.recipeshare.service.RecipeService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,10 +69,12 @@ class RecipeControllerTest {
         @Test
         void testAddRecipe_thenAnswer_andArgumentCaptor_andInOrder_andNoMoreInteractions() throws Exception {
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "BASIC");
             json.put("title", "Cake");
             json.put("description", "Delicious cake");
             json.put("ingredients", "1 cup of flour, 1 cup of sugar, 3 eggs");
             json.put("instructions", "Mix and bake");
+            json.put("servings", 6);
             String jsonString = mapper.writeValueAsString(json);
 
             // thenAnswer: assign ID dynamically based on the request body
@@ -96,6 +98,7 @@ class RecipeControllerTest {
             Recipe captured = recipeCaptor.getValue();
             assertNull(captured.getId()); // ID is assigned in service, controller passes no ID
             assertEquals("Cake", captured.getTitle());
+            assertInstanceOf(BasicRecipe.class, captured);
 
             // verify order (only addRecipe is expected in this flow)
             InOrder order = inOrder(recipeService);
@@ -113,10 +116,12 @@ class RecipeControllerTest {
         })
         void parameterizedAddRecipeTest_doReturnMatcherEqAny(String title, String description, String ingredients, String instructions) throws Exception {
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "BASIC");
             json.put("title", title);
             json.put("description", description);
             json.put("ingredients", ingredients);
             json.put("instructions", instructions);
+            json.put("servings", 6);
             String jsonString = mapper.writeValueAsString(json);
 
             // Using doReturn style with matchers (works fine with mocks)
@@ -141,10 +146,12 @@ class RecipeControllerTest {
         @Test
         void addRecipe_serviceThrows_thenThrow_resultsIn5xx() throws Exception {
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "BASIC");
             json.put("title", "Boom");
             json.put("description", "Explode");
             json.put("ingredients", "x");
             json.put("instructions", "y");
+            json.put("servings", 1);
             String jsonString = mapper.writeValueAsString(json);
 
             when(recipeService.addRecipe(any(Recipe.class))).thenThrow(new RuntimeException("boom"));
@@ -169,8 +176,8 @@ class RecipeControllerTest {
         void createRecipes() throws Exception {
             recipeIds = new ArrayList<>();
             String[] recipes = {
-                    "{\"title\":\"Pie\",\"description\":\"Apple pie\",\"ingredients\":\"Apples, Flour, Sugar\",\"instructions\":\"Mix and bake\"}",
-                    "{\"title\":\"Soup\",\"description\":\"Tomato soup\",\"ingredients\":\"Tomatoes, Water, Salt\",\"instructions\":\"Boil and blend\"}"
+                    "{\"type\":\"BASIC\",\"title\":\"Pie\",\"description\":\"Apple pie\",\"ingredients\":\"Apples, Flour, Sugar\",\"instructions\":\"Mix and bake\",\"servings\":8}",
+                    "{\"type\":\"BASIC\",\"title\":\"Soup\",\"description\":\"Tomato soup\",\"ingredients\":\"Tomatoes, Water, Salt\",\"instructions\":\"Boil and blend\",\"servings\":8}"
             };
 
             Recipe r1 = new Recipe(null, "Pie", "Apple pie", "Apples, Flour, Sugar", "Mix and bake", 8);
@@ -285,10 +292,12 @@ class RecipeControllerTest {
         void testPutRecipe_eqAndArgThat_andCaptor() throws Exception {
             long id = 10L;
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "DESSERT");
             json.put("title", "Updated Pie");
             json.put("description", "Updated desc");
             json.put("ingredients", "Apples, Flour, Sugar, Cinnamon");
             json.put("instructions", "Mix, bake, and cool");
+            json.put("servings", 4);
             String jsonString = mapper.writeValueAsString(json);
 
             Recipe updated = new Recipe(id, "Updated Pie", "Updated desc",
@@ -310,6 +319,7 @@ class RecipeControllerTest {
             assertEquals("Updated desc", sent.getDescription());
             assertEquals("Apples, Flour, Sugar, Cinnamon", sent.getIngredients());
             assertEquals("Mix, bake, and cool", sent.getInstructions());
+            assertInstanceOf(DessertRecipe.class, sent);
 
             // also show argThat: ensure non-empty title
             verify(recipeService, times(1)).updateRecipe(eq(id), argThat(r -> r.getTitle() != null && !r.getTitle().isBlank()));
@@ -321,6 +331,7 @@ class RecipeControllerTest {
         void testPatchRecipe_thenAnswerEcho_andArgThatPartial() throws Exception {
             long id = 11L;
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "VEGETARIAN");
             json.put("description", "Patched desc");
             String jsonString = mapper.writeValueAsString(json);
 
@@ -341,6 +352,12 @@ class RecipeControllerTest {
             verify(recipeService).patchRecipe(eq(id), argThat(r ->
                     "Patched desc".equals(r.getDescription())
             ));
+
+            // also ensure the controller used the factory to create a VegetarianRecipe
+            verify(recipeService).patchRecipe(eq(id), recipeCaptor.capture());
+            Recipe captured = recipeCaptor.getValue();
+            assertInstanceOf(VegetarianRecipe.class, captured);
+
             verifyNoMoreInteractions(recipeService);
         }
     }
@@ -367,10 +384,12 @@ class RecipeControllerTest {
         void testPutNonExistingRecipe_returns404() throws Exception {
             long id = 9999L;
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "BASIC");
             json.put("title", "Doesn't exist");
             json.put("description", "Nope");
             json.put("ingredients", "None");
             json.put("instructions", "None");
+            json.put("servings", 1);
             String jsonString = mapper.writeValueAsString(json);
 
             when(recipeService.updateRecipe(eq(id), any(Recipe.class))).thenReturn(Optional.empty());
@@ -388,6 +407,7 @@ class RecipeControllerTest {
         void testPatchNonExistingRecipe_returns404() throws Exception {
             long id = 9999L;
             ObjectNode json = mapper.createObjectNode();
+            json.put("type", "BASIC");
             json.put("description", "Nope");
             String jsonString = mapper.writeValueAsString(json);
 
