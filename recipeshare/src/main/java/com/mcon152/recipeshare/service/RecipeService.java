@@ -1,6 +1,6 @@
 package com.mcon152.recipeshare.service;
 
-import com.mcon152.recipeshare.Recipe;
+import com.mcon152.recipeshare.domain.Recipe;
 
 import java.util.List;
 import java.util.Optional;

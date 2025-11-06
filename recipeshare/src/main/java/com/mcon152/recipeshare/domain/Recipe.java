@@ -1,12 +1,14 @@
-package com.mcon152.recipeshare;
+package com.mcon152.recipeshare.domain;
 
 import jakarta.persistence.*;
+
+import com.mcon152.recipeshare.web.RecipeRequest;
 
 @Entity
 @Table(name = "recipes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "recipe_type", discriminatorType = DiscriminatorType.STRING, columnDefinition = "VARCHAR(31) DEFAULT 'BASIC'")
-public class Recipe {
+public abstract class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +29,27 @@ public class Recipe {
     @Column(name = "recipe_type", insertable = false, updatable = false, nullable = true,
             columnDefinition = "VARCHAR(31) DEFAULT 'BASIC'")
     private String recipeType;
+
+    /**
+     * Instance factory method that concrete subclasses must implement to produce instances of their type.
+     */
+    protected abstract Recipe createFromRequestInstance(RecipeRequest req);
+
+    /**
+     * Copies the common fields from the request to the target recipe instance. Subclasses can override
+     * this if they need to customize how common fields are populated.
+     */
+    protected void populateCommonFields(Recipe target, RecipeRequest req) {
+        if (target == null) return;
+        target.setId(null);
+        if (req != null) {
+            target.setTitle(req.getTitle());
+            target.setDescription(req.getDescription());
+            target.setIngredients(req.getIngredients());
+            target.setInstructions(req.getInstructions());
+            target.setServings(req.getServings());
+        }
+    }
 
     // Constructors
     public Recipe() {}
@@ -62,5 +85,3 @@ public class Recipe {
     // Read-only access to discriminator value
     public String getRecipeType() { return recipeType; }
 }
-
-

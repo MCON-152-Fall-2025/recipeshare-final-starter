@@ -1,6 +1,6 @@
 package com.mcon152.recipeshare.service;
 
-import com.mcon152.recipeshare.Recipe;
+import com.mcon152.recipeshare.domain.Recipe;
 import com.mcon152.recipeshare.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.mcon152.recipeshare.web;
 
-import com.mcon152.recipeshare.Recipe;
-import com.mcon152.recipeshare.service.RecipeFactory;
+import com.mcon152.recipeshare.domain.Recipe;
+import com.mcon152.recipeshare.domain.RecipeRegistry;
 import com.mcon152.recipeshare.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class RecipeController {
     @PostMapping
     public ResponseEntity<Recipe> addRecipe(@RequestBody RecipeRequest recipeRequest) {
         try {
-            Recipe toSave = RecipeFactory.createFromRequest(recipeRequest);
+            Recipe toSave = RecipeRegistry.createFromRequest(recipeRequest);
             Recipe saved = recipeService.addRecipe(toSave);
 
             URI location = ServletUriComponentsBuilder
@@ -79,7 +79,7 @@ public class RecipeController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody RecipeRequest updatedRequest) {
-        Recipe updatedRecipe = RecipeFactory.createFromRequest(updatedRequest);
+        Recipe updatedRecipe = RecipeRegistry.createFromRequest(updatedRequest);
         return recipeService.updateRecipe(id, updatedRecipe)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -90,7 +90,7 @@ public class RecipeController {
      */
     @PatchMapping("/{id}")
     public ResponseEntity<Recipe> patchRecipe(@PathVariable long id, @RequestBody RecipeRequest partialRequest) {
-        Recipe partialRecipe = RecipeFactory.createFromRequest(partialRequest);
+        Recipe partialRecipe = RecipeRegistry.createFromRequest(partialRequest);
         return recipeService.patchRecipe(id, partialRecipe)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

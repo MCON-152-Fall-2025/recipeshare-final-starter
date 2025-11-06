@@ -2,7 +2,10 @@ package com.mcon152.recipeshare.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.mcon152.recipeshare.*;
+import com.mcon152.recipeshare.domain.BasicRecipe;
+import com.mcon152.recipeshare.domain.DessertRecipe;
+import com.mcon152.recipeshare.domain.Recipe;
+import com.mcon152.recipeshare.domain.VegetarianRecipe;
 import com.mcon152.recipeshare.service.RecipeService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,7 +83,7 @@ class RecipeControllerTest {
             // thenAnswer: assign ID dynamically based on the request body
             when(recipeService.addRecipe(any(Recipe.class))).thenAnswer(invocation -> {
                 Recipe r = invocation.getArgument(0);
-                return new Recipe(1L, r.getTitle(), r.getDescription(), r.getIngredients(), r.getInstructions(), 6);
+                return new BasicRecipe(1L, r.getTitle(), r.getDescription(), r.getIngredients(), r.getInstructions(), 6);
             });
 
             mockMvc.perform(post("/api/recipes")
@@ -125,7 +128,7 @@ class RecipeControllerTest {
             String jsonString = mapper.writeValueAsString(json);
 
             // Using doReturn style with matchers (works fine with mocks)
-            Recipe saved = new Recipe(100L, title, description, ingredients, instructions, 6);
+            Recipe saved = new BasicRecipe(100L, title, description, ingredients, instructions, 6);
             doReturn(saved).when(recipeService).addRecipe(any(Recipe.class));
 
             mockMvc.perform(post("/api/recipes")
@@ -180,9 +183,9 @@ class RecipeControllerTest {
                     "{\"type\":\"BASIC\",\"title\":\"Soup\",\"description\":\"Tomato soup\",\"ingredients\":\"Tomatoes, Water, Salt\",\"instructions\":\"Boil and blend\",\"servings\":8}"
             };
 
-            Recipe r1 = new Recipe(null, "Pie", "Apple pie", "Apples, Flour, Sugar", "Mix and bake", 8);
+            Recipe r1 = new BasicRecipe(null, "Pie", "Apple pie", "Apples, Flour, Sugar", "Mix and bake", 8);
             r1.setId(1L);
-            Recipe r2 = new Recipe(null, "Soup", "Tomato soup", "Tomatoes, Water, Salt", "Boil and blend", 8);
+            Recipe r2 = new BasicRecipe(null, "Soup", "Tomato soup", "Tomatoes, Water, Salt", "Boil and blend", 8);
             r2.setId(2L);
 
             // Consecutive stubbing: return r1 then r2 for the two POSTs
@@ -263,8 +266,8 @@ class RecipeControllerTest {
         @Test
         void getAll_consecutiveStubs_twoCallsDifferentResults() throws Exception {
             List<Recipe> list1 = List.of(
-                    new Recipe(1L, "A", "d", "i", "n", 1),
-                    new Recipe(2L, "B", "d", "i", "n", 2)
+                    new BasicRecipe(1L, "A", "d", "i", "n", 1),
+                    new BasicRecipe(2L, "B", "d", "i", "n", 2)
             );
             List<Recipe> list2 = Collections.emptyList();
 
@@ -300,7 +303,7 @@ class RecipeControllerTest {
             json.put("servings", 4);
             String jsonString = mapper.writeValueAsString(json);
 
-            Recipe updated = new Recipe(id, "Updated Pie", "Updated desc",
+            Recipe updated = new BasicRecipe(id, "Updated Pie", "Updated desc",
                     "Apples, Flour, Sugar, Cinnamon", "Mix, bake, and cool", 4);
 
             when(recipeService.updateRecipe(eq(id), any(Recipe.class))).thenReturn(Optional.of(updated));
@@ -339,7 +342,7 @@ class RecipeControllerTest {
             when(recipeService.patchRecipe(eq(id), any(Recipe.class))).thenAnswer(inv -> {
                 Long i = inv.getArgument(0);
                 Recipe p = inv.getArgument(1);
-                return Optional.of(new Recipe(i, "Pie", p.getDescription(), "Apples, Flour, Sugar", "Mix and bake", 8));
+                return Optional.of(new BasicRecipe(i, "Pie", p.getDescription(), "Apples, Flour, Sugar", "Mix and bake", 8));
             });
 
             mockMvc.perform(patch("/api/recipes/" + id)

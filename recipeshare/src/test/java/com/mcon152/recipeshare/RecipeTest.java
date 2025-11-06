@@ -1,5 +1,6 @@
 package com.mcon152.recipeshare;
 
+import com.mcon152.recipeshare.domain.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +8,7 @@ class RecipeTest {
 
     @Test
     void testCreateRecipe() {
-        Recipe recipe = new Recipe(1L, "Cake", "Delicious cake", "Flour, Sugar, Eggs", "Mix and bake", 8);
+        Recipe recipe = new BasicRecipe(1L, "Cake", "Delicious cake", "Flour, Sugar, Eggs", "Mix and bake", 8);
         assertEquals(1L, recipe.getId());
         assertEquals("Cake", recipe.getTitle());
         assertEquals("Delicious cake", recipe.getDescription());
@@ -36,7 +37,7 @@ class RecipeTest {
 
     @Test
     void testReadRecipe() {
-        Recipe recipe = new Recipe();
+        Recipe recipe = new BasicRecipe();
         recipe.setId(2L);
         recipe.setTitle("Pie");
         recipe.setDescription("Apple pie");
@@ -53,7 +54,7 @@ class RecipeTest {
 
     @Test
     void testUpdateRecipe() {
-        Recipe recipe = new Recipe();
+        Recipe recipe = new BasicRecipe();
         recipe.setTitle("Bread");
         recipe.setDescription("Simple bread");
         recipe.setIngredients("Flour, Water, Yeast");

@@ -1,12 +1,22 @@
 package com.mcon152.recipeshare.service;
 
-import com.mcon152.recipeshare.*;
+import com.mcon152.recipeshare.domain.*;
+import com.mcon152.recipeshare.domain.RecipeRegistry;
 import com.mcon152.recipeshare.web.RecipeRequest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RecipeFactoryTest {
+class RecipeRegisterTest {
+    @BeforeAll
+    static void setup() {
+        // Ensure the registry is initialized.
+        RecipeRegistry.register("BASIC", new BasicRecipe());
+        RecipeRegistry.register("VEGETARIAN", new VegetarianRecipe());
+        RecipeRegistry.register("DESSERT", new DessertRecipe());
+        RecipeRegistry.register("DAIRY", new DairyRecipe());
+    }
 
     @Test
     void createsBasicByDefault_andCopiesFields() {
@@ -17,7 +27,7 @@ class RecipeFactoryTest {
         req.setInstructions("N");
         req.setServings(3);
 
-        Recipe r = RecipeFactory.createFromRequest(req);
+        Recipe r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof BasicRecipe);
         assertNull(r.getId());
         assertEquals("Title", r.getTitle());
@@ -31,25 +41,25 @@ class RecipeFactoryTest {
     void createsSpecifiedSubtypes_caseInsensitive() {
         RecipeRequest req = new RecipeRequest();
         req.setType("vegetarian");
-        Recipe r = RecipeFactory.createFromRequest(req);
+        Recipe r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof VegetarianRecipe);
 
         req.setType("DESSERT");
-        r = RecipeFactory.createFromRequest(req);
+        r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof DessertRecipe);
 
         req.setType("DAIRY");
-        r = RecipeFactory.createFromRequest(req);
+        r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof DairyRecipe);
 
         req.setType("BASIC");
-        r = RecipeFactory.createFromRequest(req);
+        r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof BasicRecipe);
     }
 
     @Test
     void nullRequest_returnsBasic_withNullFields() {
-        Recipe r = RecipeFactory.createFromRequest(null);
+        Recipe r = RecipeRegistry.createFromRequest(null);
         assertTrue(r instanceof BasicRecipe);
         assertNull(r.getTitle());
         assertNull(r.getDescription());
@@ -62,8 +72,7 @@ class RecipeFactoryTest {
     void unknownType_defaultsToBasic() {
         RecipeRequest req = new RecipeRequest();
         req.setType("UNKNOWN");
-        Recipe r = RecipeFactory.createFromRequest(req);
+        Recipe r = RecipeRegistry.createFromRequest(req);
         assertTrue(r instanceof BasicRecipe);
     }
 }
-

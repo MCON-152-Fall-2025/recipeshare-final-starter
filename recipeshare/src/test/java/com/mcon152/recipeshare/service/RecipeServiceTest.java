@@ -1,9 +1,9 @@
 package com.mcon152.recipeshare.service;
 
-import com.mcon152.recipeshare.BasicRecipe;
-import com.mcon152.recipeshare.DessertRecipe;
-import com.mcon152.recipeshare.Recipe;
-import com.mcon152.recipeshare.VegetarianRecipe;
+import com.mcon152.recipeshare.domain.BasicRecipe;
+import com.mcon152.recipeshare.domain.DessertRecipe;
+import com.mcon152.recipeshare.domain.Recipe;
+import com.mcon152.recipeshare.domain.VegetarianRecipe;
 import com.mcon152.recipeshare.repository.RecipeRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +46,7 @@ class RecipeServiceTest {
     // --- Helpers for sample data ---
 
     private Recipe newRecipeNoId() {
-        return new Recipe(
+        return new BasicRecipe(
                 null,
                 "Chocolate Cake",
                 "Moist chocolate cake",
@@ -57,7 +57,7 @@ class RecipeServiceTest {
     }
 
     private Recipe savedRecipe(long id) {
-        return new Recipe(
+        return new BasicRecipe(
                 id,
                 "Chocolate Cake",
                 "Moist chocolate cake",
@@ -94,7 +94,7 @@ class RecipeServiceTest {
         void assignsId_thenAnswer_andCaptures() {
             when(recipeRepository.save(any(Recipe.class))).thenAnswer(inv -> {
                 Recipe r = inv.getArgument(0);
-                return new Recipe(1L, r.getTitle(), r.getDescription(),
+                return new BasicRecipe(1L, r.getTitle(), r.getDescription(),
                         r.getIngredients(), r.getInstructions(), r.getServings());
             });
 
@@ -227,8 +227,8 @@ class RecipeServiceTest {
         @DisplayName("returns updated entity when exists")
         void returnsUpdated_whenExists() {
             long id = 10L;
-            Recipe existing = new Recipe(id, "Old", "old", "i", "n", 1);
-            Recipe updatedInput = new Recipe(null, "New Title", "New Desc", "new i", "new n", 2);
+            Recipe existing = new BasicRecipe(id, "Old", "old", "i", "n", 1);
+            Recipe updatedInput = new BasicRecipe(null, "New Title", "New Desc", "new i", "new n", 2);
 
             when(recipeRepository.findById(id)).thenReturn(Optional.of(existing));
             when(recipeRepository.save(any(Recipe.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -253,7 +253,7 @@ class RecipeServiceTest {
             long id = 11L;
             when(recipeRepository.findById(id)).thenReturn(Optional.empty());
 
-            Optional<Recipe> out = recipeService.updateRecipe(id, new Recipe());
+            Optional<Recipe> out = recipeService.updateRecipe(id, new BasicRecipe());
             assertTrue(out.isEmpty());
             verify(recipeRepository).findById(id);
             verify(recipeRepository, never()).save(any(Recipe.class));
@@ -292,8 +292,8 @@ class RecipeServiceTest {
         @DisplayName("applies only non-null fields (argThat)")
         void appliesNonNullFields_only() {
             long id = 20L;
-            Recipe existing = new Recipe(id, "Title", "Desc", "I", "N", 3);
-            Recipe partial = new Recipe(null, "New Title", null, null, null, null);
+            Recipe existing = new BasicRecipe(id, "Title", "Desc", "I", "N", 3);
+            Recipe partial = new BasicRecipe(null, "New Title", null, null, null, null);
 
             when(recipeRepository.findById(id)).thenReturn(Optional.of(existing));
             when(recipeRepository.save(any(Recipe.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -315,7 +315,7 @@ class RecipeServiceTest {
             long id = 21L;
             when(recipeRepository.findById(id)).thenReturn(Optional.empty());
 
-            Optional<Recipe> out = recipeService.patchRecipe(id, new Recipe());
+            Optional<Recipe> out = recipeService.patchRecipe(id, new BasicRecipe());
             assertTrue(out.isEmpty());
             verify(recipeRepository).findById(id);
             verify(recipeRepository, never()).save(any(Recipe.class));
