@@ -1,6 +1,5 @@
-package com.mcon152.recipeshare;
+package com.mcon152.recipeshare.domain;
 
-import com.mcon152.recipeshare.domain.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
