@@ -1,0 +1,28 @@
+[
+  {
+    "username": "chef_john",
+    "password": "password123",
+    "displayName": "Chef John"
+  },
+  {
+    "username": "mary_baker",
+    "password": "password123",
+    "displayName": "Mary Baker"
+  },
+  {
+    "username": "veggie_chef",
+    "password": "password123",
+    "displayName": "Veggie Chef"
+  },
+  {
+    "username": "dessert_master",
+    "password": "password123",
+    "displayName": "Dessert Master"
+  },
+  {
+    "username": "italian_cook",
+    "password": "password123",
+    "displayName": "Italian Cook"
+  }
+]
+

@@ -1,0 +1,123 @@
+[
+  {
+    "type": "BASIC",
+    "title": "Classic Spaghetti Carbonara",
+    "description": "Traditional Italian pasta dish with eggs, cheese, and pancetta",
+    "ingredients": "400g spaghetti, 200g pancetta, 4 eggs, 100g Pecorino Romano cheese, black pepper, salt",
+    "instructions": "1. Cook spaghetti in salted boiling water. 2. Fry pancetta until crispy. 3. Beat eggs with grated cheese. 4. Drain pasta, mix with pancetta, remove from heat. 5. Add egg mixture quickly, stirring to create creamy sauce. 6. Season with black pepper and serve immediately.",
+    "servings": 4,
+    "authorUsername": "italian_cook",
+    "tags": ["italian", "pasta", "dinner", "quick"]
+  },
+  {
+    "type": "VEGETARIAN",
+    "title": "Mediterranean Quinoa Salad",
+    "description": "Healthy and colorful quinoa salad with fresh vegetables",
+    "ingredients": "1 cup quinoa, 2 cups water, 1 cucumber, 2 tomatoes, 1 red onion, 1/2 cup olives, 1/4 cup feta cheese, olive oil, lemon juice, fresh herbs",
+    "instructions": "1. Rinse quinoa and cook in water until fluffy. 2. Let quinoa cool. 3. Chop cucumber, tomatoes, and onion. 4. Mix vegetables with cooled quinoa. 5. Add olives and crumbled feta. 6. Dress with olive oil, lemon juice, and herbs. 7. Chill before serving.",
+    "servings": 6,
+    "authorUsername": "veggie_chef",
+    "tags": ["vegetarian", "healthy", "salad", "lunch", "mediterranean"]
+  },
+  {
+    "type": "DESSERT",
+    "title": "Chocolate Chip Cookies",
+    "description": "Classic homemade chocolate chip cookies, crispy on the outside and chewy inside",
+    "ingredients": "2 1/4 cups flour, 1 tsp baking soda, 1 tsp salt, 1 cup butter, 3/4 cup sugar, 3/4 cup brown sugar, 2 eggs, 2 tsp vanilla, 2 cups chocolate chips",
+    "instructions": "1. Preheat oven to 375°F. 2. Mix flour, baking soda, and salt. 3. Cream butter and sugars. 4. Beat in eggs and vanilla. 5. Gradually add flour mixture. 6. Stir in chocolate chips. 7. Drop spoonfuls on baking sheet. 8. Bake 9-11 minutes until golden. 9. Cool on wire rack.",
+    "servings": 48,
+    "authorUsername": "mary_baker",
+    "tags": ["dessert", "cookies", "chocolate", "baking"]
+  },
+  {
+    "type": "BASIC",
+    "title": "Grilled Chicken Breast",
+    "description": "Simple and healthy grilled chicken with herbs",
+    "ingredients": "4 chicken breasts, 2 tbsp olive oil, 2 cloves garlic, 1 tsp rosemary, 1 tsp thyme, salt, pepper, lemon juice",
+    "instructions": "1. Pound chicken to even thickness. 2. Mix olive oil, minced garlic, herbs, salt, and pepper. 3. Marinate chicken for 30 minutes. 4. Preheat grill to medium-high. 5. Grill chicken 6-7 minutes per side. 6. Check internal temperature reaches 165°F. 7. Rest for 5 minutes. 8. Drizzle with lemon juice and serve.",
+    "servings": 4,
+    "authorUsername": "chef_john",
+    "tags": ["healthy", "protein", "dinner", "grilled"]
+  },
+  {
+    "type": "VEGETARIAN",
+    "title": "Veggie Stir-Fry",
+    "description": "Quick and colorful vegetable stir-fry with Asian flavors",
+    "ingredients": "2 cups broccoli, 1 bell pepper, 1 carrot, 1 cup snap peas, 2 tbsp soy sauce, 1 tbsp sesame oil, 2 cloves garlic, 1 tsp ginger, rice for serving",
+    "instructions": "1. Cut all vegetables into bite-sized pieces. 2. Heat sesame oil in wok or large pan. 3. Add minced garlic and ginger, stir for 30 seconds. 4. Add harder vegetables first (broccoli, carrots). 5. Stir-fry 3-4 minutes. 6. Add remaining vegetables. 7. Add soy sauce and stir-fry 2 more minutes. 8. Serve over rice.",
+    "servings": 4,
+    "authorUsername": "veggie_chef",
+    "tags": ["vegetarian", "asian", "quick", "healthy", "dinner"]
+  },
+  {
+    "type": "DESSERT",
+    "title": "New York Cheesecake",
+    "description": "Rich and creamy classic cheesecake with graham cracker crust",
+    "ingredients": "2 cups graham cracker crumbs, 1/2 cup melted butter, 32 oz cream cheese, 1 cup sugar, 4 eggs, 1 cup sour cream, 1 tbsp vanilla extract, 1/4 cup flour",
+    "instructions": "1. Preheat oven to 325°F. 2. Mix graham crackers with melted butter, press into springform pan. 3. Beat cream cheese until smooth. 4. Add sugar gradually. 5. Beat in eggs one at a time. 6. Mix in sour cream, vanilla, and flour. 7. Pour over crust. 8. Bake 55-60 minutes until set but slightly jiggly. 9. Cool completely, then refrigerate 4 hours.",
+    "servings": 12,
+    "authorUsername": "dessert_master",
+    "tags": ["dessert", "cheesecake", "baking", "party"]
+  },
+  {
+    "type": "BASIC",
+    "title": "Homemade Pizza Margherita",
+    "description": "Classic Italian pizza with tomato, mozzarella, and basil",
+    "ingredients": "Pizza dough, 1 cup tomato sauce, 8 oz fresh mozzarella, fresh basil leaves, olive oil, salt, garlic",
+    "instructions": "1. Preheat oven to 475°F with pizza stone. 2. Roll out pizza dough into 12-inch circle. 3. Spread tomato sauce evenly. 4. Tear mozzarella and distribute on pizza. 5. Drizzle with olive oil. 6. Bake 12-15 minutes until crust is golden. 7. Remove and top with fresh basil leaves. 8. Slice and serve hot.",
+    "servings": 4,
+    "authorUsername": "italian_cook",
+    "tags": ["italian", "pizza", "dinner"]
+  },
+  {
+    "type": "DAIRY",
+    "title": "Creamy Mac and Cheese",
+    "description": "Ultimate comfort food with three types of cheese",
+    "ingredients": "1 lb elbow macaroni, 4 tbsp butter, 4 tbsp flour, 3 cups milk, 2 cups cheddar cheese, 1 cup gruyere cheese, 1/2 cup parmesan cheese, salt, pepper, breadcrumbs",
+    "instructions": "1. Cook macaroni according to package directions. 2. Melt butter, add flour to make roux. 3. Gradually whisk in milk. 4. Cook until thickened. 5. Remove from heat, stir in cheeses until melted. 6. Mix cheese sauce with cooked macaroni. 7. Transfer to baking dish. 8. Top with breadcrumbs. 9. Bake at 350°F for 20 minutes until bubbly.",
+    "servings": 8,
+    "authorUsername": "chef_john",
+    "tags": ["comfort-food", "cheese", "pasta", "dinner"]
+  },
+  {
+    "type": "VEGETARIAN",
+    "title": "Caprese Salad",
+    "description": "Simple Italian salad with tomatoes, mozzarella, and basil",
+    "ingredients": "4 large tomatoes, 16 oz fresh mozzarella, fresh basil leaves, extra virgin olive oil, balsamic vinegar, salt, pepper",
+    "instructions": "1. Slice tomatoes and mozzarella into 1/4 inch rounds. 2. Arrange alternating slices on a platter. 3. Tuck basil leaves between slices. 4. Drizzle with olive oil and balsamic vinegar. 5. Sprinkle with salt and pepper. 6. Let sit 10 minutes before serving.",
+    "servings": 4,
+    "authorUsername": "italian_cook",
+    "tags": ["vegetarian", "italian", "salad", "quick", "appetizer"]
+  },
+  {
+    "type": "DESSERT",
+    "title": "Chocolate Brownies",
+    "description": "Fudgy, rich chocolate brownies with a crackly top",
+    "ingredients": "1 cup butter, 2 cups sugar, 4 eggs, 3/4 cup cocoa powder, 1 cup flour, 1/2 tsp salt, 1 tsp vanilla, 1 cup chocolate chips",
+    "instructions": "1. Preheat oven to 350°F. 2. Grease 9x13 pan. 3. Melt butter, stir in sugar. 4. Beat in eggs one at a time. 5. Mix in cocoa, flour, salt, and vanilla. 6. Fold in chocolate chips. 7. Pour into pan. 8. Bake 25-30 minutes, don't overbake. 9. Cool before cutting.",
+    "servings": 16,
+    "authorUsername": "dessert_master",
+    "tags": ["dessert", "chocolate", "brownies", "baking"]
+  },
+  {
+    "type": "BASIC",
+    "title": "Caesar Salad",
+    "description": "Classic Caesar salad with homemade dressing and croutons",
+    "ingredients": "1 head romaine lettuce, 1 cup croutons, 1/2 cup parmesan cheese, 2 cloves garlic, 2 anchovy fillets, 1 egg yolk, 1 tbsp Dijon mustard, 2 tbsp lemon juice, 1/2 cup olive oil, salt, pepper",
+    "instructions": "1. Wash and chop romaine lettuce. 2. Make dressing: blend garlic, anchovies, egg yolk, mustard, and lemon juice. 3. Slowly drizzle in olive oil while blending. 4. Season with salt and pepper. 5. Toss lettuce with dressing. 6. Top with croutons and shaved parmesan. 7. Serve immediately.",
+    "servings": 4,
+    "authorUsername": "chef_john",
+    "tags": ["salad", "appetizer", "classic"]
+  },
+  {
+    "type": "BASIC",
+    "title": "Beef Tacos",
+    "description": "Delicious ground beef tacos with all the fixings",
+    "ingredients": "1 lb ground beef, 1 packet taco seasoning, taco shells, shredded lettuce, diced tomatoes, shredded cheese, sour cream, salsa",
+    "instructions": "1. Brown ground beef in skillet. 2. Drain excess fat. 3. Add taco seasoning and water as directed. 4. Simmer until thickened. 5. Warm taco shells in oven. 6. Fill shells with meat. 7. Top with lettuce, tomatoes, cheese, sour cream, and salsa. 8. Serve immediately.",
+    "servings": 6,
+    "authorUsername": "chef_john",
+    "tags": ["mexican", "dinner", "quick", "family-friendly"]
+  }
+]
+

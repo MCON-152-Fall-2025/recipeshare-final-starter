@@ -1,17 +1,23 @@
 package com.mcon152.recipeshare.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import com.mcon152.recipeshare.web.RecipeRequest;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "recipe_type", discriminatorType = DiscriminatorType.STRING, columnDefinition = "VARCHAR(31) DEFAULT 'BASIC'")
-public abstract class Recipe {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public abstract class Recipe extends BaseEntity {
+    /* comment out the id field as it is defined in the BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+     */
 
     private String title;
     private String description;
@@ -23,6 +29,18 @@ public abstract class Recipe {
     private String instructions;
 
     private Integer servings; // New field for number of servings
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private AppUser author;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "recipe_tags",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
 
     // Map discriminator column as a read-only field so DDL/copy operations include it; make it nullable and
     // give a default so schema updates that INSERT without the column won't violate NOT NULL.
@@ -55,7 +73,7 @@ public abstract class Recipe {
     public Recipe() {}
 
     public Recipe(Long id, String title, String description, String ingredients, String instructions, Integer servings) {
-        this.id = id;
+        setId(id);
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
@@ -63,9 +81,17 @@ public abstract class Recipe {
         this.servings = servings;
     }
 
+    public Recipe(Long id, String title, String description, String ingredients, String instructions, Integer servings, AppUser author) {
+        setId(id);
+        this.title = title;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.servings = servings;
+        this.author = author;
+    }
+
     // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -81,6 +107,29 @@ public abstract class Recipe {
 
     public Integer getServings() { return servings; }
     public void setServings(Integer servings) { this.servings = servings; }
+
+    public AppUser getAuthor() { return author; }
+    public void setAuthor(AppUser author) { this.author = author; }
+
+    public Set<Tag> getTags() { return tags; }
+    public void setTags(Set<Tag> tags) { this.tags = tags; }
+
+    // Helper methods for managing bidirectional tag relationship
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+        tag.getRecipes().add(this);
+    }
+
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
+        tag.getRecipes().remove(this);
+    }
+
+    public void clearTags() {
+        for (Tag tag : new HashSet<>(tags)) {
+            removeTag(tag);
+        }
+    }
 
     // Read-only access to discriminator value
     public String getRecipeType() { return recipeType; }

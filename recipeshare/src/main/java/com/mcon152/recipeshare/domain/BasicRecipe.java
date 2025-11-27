@@ -14,6 +14,10 @@ public class BasicRecipe extends Recipe {
         super(id, title, description, ingredients, instructions, servings);
     }
 
+    public BasicRecipe(Long id, String title, String description, String ingredients, String instructions, Integer servings, AppUser author) {
+        super(id, title, description, ingredients, instructions, servings, author);
+    }
+
     // Register prototype so RecipeRegistry.createFromRequest can dispatch to this subclass
     static {
         RecipeRegistry.register("BASIC", new BasicRecipe());

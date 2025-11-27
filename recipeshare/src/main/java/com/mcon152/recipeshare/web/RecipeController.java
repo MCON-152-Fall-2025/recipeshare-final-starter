@@ -3,16 +3,20 @@ package com.mcon152.recipeshare.web;
 import com.mcon152.recipeshare.domain.Recipe;
 import com.mcon152.recipeshare.domain.RecipeRegistry;
 import com.mcon152.recipeshare.service.RecipeService;
+import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/recipes")
 public class RecipeController {
+    Logger logger = LoggerFactory.getLogger(RecipeController.class);
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {

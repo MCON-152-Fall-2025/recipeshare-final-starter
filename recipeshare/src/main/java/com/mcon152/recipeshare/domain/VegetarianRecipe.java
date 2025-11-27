@@ -14,6 +14,10 @@ public class VegetarianRecipe extends Recipe {
         super(id, title, description, ingredients, instructions, servings);
     }
 
+    public VegetarianRecipe(Long id, String title, String description, String ingredients, String instructions, Integer servings, AppUser author) {
+        super(id, title, description, ingredients, instructions, servings, author);
+    }
+
     static {
         RecipeRegistry.register("VEGETARIAN", new VegetarianRecipe());
     }
